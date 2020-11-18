@@ -1,0 +1,10 @@
+/* //el-carousel el-carousel--horizontal el-carousel--card */
+.home.el-carousel {
+    width: 300px;
+  }
+
+
+  /*表单登录输入框样式*/
+  .login-page.el-input__inner{
+    width: 83%!important;
+  }
