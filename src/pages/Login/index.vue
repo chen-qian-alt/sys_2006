@@ -48,6 +48,21 @@
 
 
 <script>
+
+//登录逻辑的实现
+//1、收集用户输入的username & password传递给后端
+
+//2、登入通过后，将后端返回的token存到本地
+
+//3、每次请求的时候，携带token到请求头authorization
+
+//4、展示token校验正确的数据
+
+//5、校验不通过，跳转到登入页
+
+
+import { login } from "@/api"
+import {mapMutations} from "vuex"
 export default {
   data() {
     //jsDoc
@@ -58,7 +73,7 @@ export default {
      */
 
     var validateUsername = (rule, value, callback) => {
-      var uPattern = /^[a-zA-Z0-9_-]{4,16}$/;
+      // var uPattern = /^[a-zA-Z0-9_-]{4,16}$/;
       if (!value) {
         callback("4到6位(字母，数字，下划线，减号)");
       } else {
@@ -95,26 +110,65 @@ export default {
         password: "",
       },
       rules: {
-        username: [{ validator: validateUsername, trigger: "blur" }],
-        password: [{ validator: validatePassword, trigger: "blur" }],
+        username: [{ validator: validateUsername, trigger: 'blur' }],
+        password: [{ validator: validatePassword, trigger: 'blur' }],
       },
     };
   },
   methods: {
-    submitForm(formName) {
+    ...mapMutations(['SET_USERINFO']),
+    submitForm(formName) {   
       // console.log(this.$refs[formName])
       this.$refs[formName].validate((valid) => {
-        if (valid) {
-          //代表本地校验通过
-          alert("submit!");
+        if (valid) {//代表本地校验通过
+          // alert("submit!");
+
+          //打开登入加载动画
+          const loading =  this.$loading({
+          lock: true,
+          text: '正在登入...',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+          let {username,password} = this.loginForm;
+          //发送登入请求
+          
+          login(username,password)
+          .then(res=>{
+              //服务器响应，关闭loading动画
+                loading.close()
+
+ 
+              if(res.data.state) {
+                this.$message.success('登录成功')
+                //用户名密码正确
+                localStorage.setItem('qf2006-token',res.data.token)
+  
+                localStorage.setItem('qf2006-userInfo',JSON.stringify(res.data.userInfo))
+                //更改vuex中state['userInfo']的值
+                this.SET_USERINFO(res.data.userInfo)
+
+                //跳转到主页
+                this.$router.push("/")
+              }else{
+                //用户名或者密码错误
+                this.$message.error('用户名密码错误')
+              }
+            })
+            .catch(err=>{
+              console.log(err);
+            })
         } else {
           console.log("error submit!!");
           return false;
         }
       });
     },
-  },
-};
+     resetForm(formName) {
+        this.$refs[formName].resetFields();
+     }
+  }
+}
 </script>
 
 

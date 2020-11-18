@@ -51,13 +51,21 @@
         <el-header>
           <el-row type="flex" class="row-bg" justify="space-between">
             <el-col :span="6"
-              ><div class="grid-content bg-purple"></div
+              ><div class="grid-content bg-purple">图标</div
             ></el-col>
             <el-col :span="6"
-              ><div class="grid-content bg-purple-light"></div
+              ><div class="grid-content bg-purple-light">
+                万锋管理系统
+                </div
             ></el-col>
             <el-col :span="6"
-              ><div class="grid-content bg-purple"></div
+              ><div class="grid-content bg-purple">
+                <el-avatar :size="40" class="aa"></el-avatar>
+                <span>欢迎您：</span>
+                <b class="nickname">{{userInfo.nickname}}</b>
+                
+                <span class="quit" @click="quit">退出</span>
+                </div
             ></el-col>
           </el-row>
         </el-header>
@@ -68,7 +76,18 @@
   </div>
 </template>
 <script>
+import {getLoginLog} from "@/api"
+import {mapState} from "vuex"
 export default {
+  computed: {
+    ...mapState(['userInfo'])
+  },
+  mounted () {
+    getLoginLog()
+    .then(res => {
+      console.log(res)
+    })
+  },
   data() {
     return {
       isCollapse: true,
@@ -81,22 +100,56 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-  },
+    quit() {
+      //退出登入
+      //1、清除token和userInfo
+      //2、跳转到登录页
+      localStorage.removeItem("qf2006-token")
+      localStorage.removeItem("qf2006-userInfo")
+      
+      console.log(1)
+      this.$router.push("/login")
+    }
+  }, 
 };
 </script>
 
 
-<style>
+<style scoped>
+.quit{
+  cursor: pointer;
+  color: rgb(9, 236, 217);
+}
+.aa{
+  vertical-align: middle;
+  margin-right: 12px;
+}
+/* 修改avatar的样式 */
+.el-avatar.el-avatar--square{
+  vertical-align:middle;
+  margin-right:10px;
+}
+
+
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;
 }
+.el-row{
+  width: 100%;
+}
+.el-header,.row-bg{
+  background: linear-gradient(90deg, #4d66ff, #5538e1);
+}
+
+
 .el-header,
 .el-footer {
   background-color: #b3c0d1;
-  color: #333;
+  font-size: 16px;
+  color: #e9eef3;
   text-align: center;
-  line-height: 60px;
+  line-height: 36px;
 }
 
 .el-aside {
@@ -120,21 +173,27 @@ body > .el-container {
 .el-row {
   margin-bottom: 20px;
 }
+
+
 .el-row:last-child {
   margin-bottom: 0;
 }
 .el-col {
   border-radius: 4px;
 }
+
 .bg-purple-dark {
-  background: #99a9bf;
+  line-height: 36px;
 }
 .bg-purple {
-  background: #d3dce6;
+  line-height: 36px;
 }
+
 .bg-purple-light {
-  background: #e5e9f2;
+  line-height: 36px;
 }
+
+/* layout顶栏样式 */
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
