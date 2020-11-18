@@ -3,10 +3,7 @@
     <el-container>
       <!-- 侧边栏 -->
       <el-aside width="200px"
-        ><el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
-          <el-radio-button :label="false">展开</el-radio-button>
-          <el-radio-button :label="true">收起</el-radio-button>
-        </el-radio-group>
+        >
         <el-menu
           default-active="1-4-1"
           class="el-menu-vertical-demo"
@@ -20,22 +17,24 @@
               <span slot="title">管理首页</span>
             </template>
             <el-menu-item-group>
-              <span slot="title">分组一</span>
+              <!-- <span slot="title">分组一</span> -->
               <el-menu-item index="1-1">选项1</el-menu-item>
               <el-menu-item index="1-2">选项2</el-menu-item>
             </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-              <span slot="title">选项4</span>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
           </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">学员管理</span>
-          </el-menu-item>
+
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span slot="title">学员管理</span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="1-1">选项1</el-menu-item>
+              <el-menu-item index="1-2">选项2</el-menu-item>
+            </el-menu-item-group>
+          </el-submenu>
+
+          
           <el-menu-item index="3">
             <i class="el-icon-document"></i>
             <span slot="title">我的中心</span>
@@ -90,7 +89,7 @@ export default {
   },
   data() {
     return {
-      isCollapse: true,
+      isCollapse: false,
     };
   },
   methods: {
@@ -153,7 +152,7 @@ export default {
 }
 
 .el-aside {
-  background-color: #d3dce6;
+  background-color: white;
   color: #333;
   text-align: center;
   line-height: 200px;
