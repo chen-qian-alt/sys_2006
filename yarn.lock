@@ -6571,6 +6571,11 @@ npm-run-path@^4.0.0:
   dependencies:
     path-key "^3.0.0"
 
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npm.taobao.org/nprogress/download/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha1-y480xTIT2JVyP8urkH6UIq28r7E=
+
 nth-check@^1.0.2, nth-check@~1.0.1:
   version "1.0.2"
   resolved "https://registry.npm.taobao.org/nth-check/download/nth-check-1.0.2.tgz#b2bd295c37e3dd58a3bf0700376663ba4d9cf05c"
@@ -7566,6 +7571,11 @@ q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.npm.taobao.org/q/download/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
+qf-sub-menu@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npm.taobao.org/qf-sub-menu/download/qf-sub-menu-1.0.5.tgz#236895a8f5cc945567dddea92eb637b1c6d518b5"
+  integrity sha1-I2iVqPXMlFVn3d6pLrY3scbVGLU=
 
 qs@6.7.0:
   version "6.7.0"

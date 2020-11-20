@@ -149,7 +149,7 @@ export default {
                 this.SET_USERINFO(res.data.userInfo)
 
                 //跳转到主页
-                this.$router.push("/")
+                this.$router.push("/Welcome")
               }else{
                 //用户名或者密码错误
                 this.$message.error('用户名密码错误')

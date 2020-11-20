@@ -1,9 +1,15 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../pages/Login";
+import Home from "@/pages/Home";
+//解决路由导航到统一路径重复报错的问题
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 Vue.use(VueRouter);
-
+import allRoutes from "./allRouters"
 const routes = [
   {
     path: "/login",
@@ -13,12 +19,11 @@ const routes = [
   {
     path: "/",
     name: "home",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../pages/Home")
-  }
+    component:Home,
+    children: []
+
+}
+  
 ];
 
 const router = new VueRouter({

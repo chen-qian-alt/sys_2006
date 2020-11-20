@@ -30,7 +30,12 @@ axios.interceptors.response.use(config => {
     if(data.code=='1004' || data.code=='10022'){
         //在当前的后台api中1004的代表token校验失败，10022表示session到期失效，提示错误，并且让页面跳转到登入页
         ElementUI.Message.error("登录信息失效，请重新登录")
+
+        localStorage.removeItem("qf2006-token")
         router.push("/login")
+
+        //刷新页面
+        window.location.reload()
         
     }
     return config

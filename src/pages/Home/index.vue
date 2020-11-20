@@ -2,26 +2,25 @@
   <div class="home-page">
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="200px"
-        >
+      <el-aside width="200">
+        <!-- <h1 class="logo"></h1> -->
         <el-menu
-          default-active="1-4-1"
+          :default-active="$route.path"
           class="el-menu-vertical-demo"
+          :router="true" 
           @open="handleOpen"
           @close="handleClose"
           :collapse="isCollapse"
         >
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span slot="title">管理首页</span>
-            </template>
-            <el-menu-item-group>
-              <!-- <span slot="title">分组一</span> -->
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
+          <!-- <sbu-menu :sideMenu="menuList"></sbu-menu> -->
+          <qf-sub-menu :sideMenu="menuList"></qf-sub-menu>
+
+
+<!-- 
+          <el-menu-item index="1">
+            <i class="el-icon-s-shop"></i>
+            <span slot="title">管理首页</span>
+          </el-menu-item>
 
           <el-submenu index="2">
             <template slot="title">
@@ -29,28 +28,42 @@
               <span slot="title">学员管理</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
+              <el-menu-item index="1-1"><i class="el-icon-postcard"></i>学员项目管理</el-menu-item>
+              <el-menu-item index="/student"><i class="el-icon-date"></i>学员资料</el-menu-item>
+              <el-menu-item index="1-2"><i class="el-icon-office-building"></i>学员宿舍</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
 
           
           <el-menu-item index="3">
-            <i class="el-icon-document"></i>
-            <span slot="title">我的中心</span>
+            <i class="el-icon-thumb"></i>
+            <span slot="title">考勤管理</span>
           </el-menu-item>
-          <!-- <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
+
+          <el-menu-item index="4">
+            <i class="el-icon-pie-chart"></i>
+            <span slot="title">数据统计</span>
+          </el-menu-item>
+
+          <el-menu-item index="5">
+            <i class="el-icon-chat-line-round"></i>
+            <span slot="title">我的中心</span>
           </el-menu-item> -->
+
+
+
+
         </el-menu>
       </el-aside>
       <el-container>
+
         <!-- 顶部栏 -->
         <el-header>
           <el-row type="flex" class="row-bg" justify="space-between">
             <el-col :span="6"
-              ><div class="grid-content bg-purple">图标</div
+              ><div class="grid-content bg-purple">
+                <i class="iconfont icon-shouqi" @click="isCollapse=!isCollapse"></i>
+                </div
             ></el-col>
             <el-col :span="6"
               ><div class="grid-content bg-purple-light">
@@ -68,8 +81,16 @@
             ></el-col>
           </el-row>
         </el-header>
+
         <!-- 主体区域 -->
-        <el-main>Main</el-main>
+        <el-main>
+          <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/Welcome' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{path:crumb.path}" v-for="crumb in crumbs">{{crumb.meta.name}}</el-breadcrumb-item>
+
+          </el-breadcrumb>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
@@ -79,13 +100,14 @@ import {getLoginLog} from "@/api"
 import {mapState} from "vuex"
 export default {
   computed: {
-    ...mapState(['userInfo'])
+    ...mapState(['userInfo','menuList','crumbs'])
   },
   mounted () {
     getLoginLog()
     .then(res => {
       console.log(res)
     })
+
   },
   data() {
     return {
@@ -107,7 +129,9 @@ export default {
       localStorage.removeItem("qf2006-userInfo")
       
       console.log(1)
-      this.$router.push("/login")
+      this.$router.push("/login") 
+      //刷新页面
+      window.location.reload()
     }
   }, 
 };
@@ -115,6 +139,11 @@ export default {
 
 
 <style scoped>
+.icon-shouqi{
+  color: white;
+  font-size: 29px;
+  margin-left: -210px;
+}
 .quit{
   cursor: pointer;
   color: rgb(9, 236, 217);
@@ -124,7 +153,7 @@ export default {
   margin-right: 12px;
 }
 /* 修改avatar的样式 */
-.el-avatar.el-avatar--square{
+.el-avatar.el-avatar--circle{
   vertical-align:middle;
   margin-right:10px;
 }
